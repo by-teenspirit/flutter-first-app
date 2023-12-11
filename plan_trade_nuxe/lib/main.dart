@@ -39,10 +39,35 @@ class BasicsPage extends StatelessWidget {
         //child: simpleText("On peut réutiliser ce texte"),
         child: Center(
          child: Card(
-            child: Container(
-              height: 150,
-              width: 300,
-              color: Colors.grey,
+            child: Padding(
+              padding: EdgeInsets.all(3),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Test de la colonne"),
+                  Container(
+                    color: Colors.teal,
+                    child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //fromNetwork(height: 80, width: 80,),
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.red,
+                      ), //CircleAvatar 
+                      Expanded(
+                      child: simpleText("Matthieu Codabee"),
+                      ), //Expanded
+                    ],
+                  ), //Row
+                  ), //Container
+                  fromNetwork(),
+                  spanDemo(),
+                ],
+
+              ), //Column
             ), // Container
          ), //Card
         ), //Center
@@ -53,12 +78,14 @@ class BasicsPage extends StatelessWidget {
   Text simpleText(String text){
     return Text(
         'Salut les codeurs',
-        style: TextStyle
+        style: TextStyle(
           color: Colors.white,
-          fontSize: 40,
+          fontSize: 25,
           fontWeight: FontWeight.w700,
           fontStyle: FontStyle.italic,
-    );
+        ), //Text Style
+        textAlign: TextAlign.center,
+    ); // Text
   } //simpleText
 
   Text spanDemo(){
