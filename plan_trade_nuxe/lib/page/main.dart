@@ -1,230 +1,114 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Flutter App!!',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.indigo,
+        useMaterial3: true,
+        brightness: Brightness.light,
       ),
-      home: BasicPage(),
+      darkTheme: ThemeData(
+        colorSchemeSeed: Colors.blue,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      home: const MyHomePage(title: 'Flutter Example App'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class BasicPage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: Text("Facebook Profile"),
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Image.asset("images/cover.jpg", height: 200, fit: BoxFit.cover,),
-                Padding(
-                    padding: EdgeInsets.only(top: 125),
-                  child: CircleAvatar(radius: 75, backgroundColor: Colors.white,
-                    child: myProfilePic(72),
-                  ),
-                )
-              ],
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            Row(
-              children: [
-                Spacer(),
-                Text(
-                  "Matthieu Codabee",
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25
-                  ),
-                ),
-                Spacer()
-              ],
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Padding(
-                padding: EdgeInsets.all(10),
-              child: Text("Un jour les chats domineront le monde, mais pas aujourd'hui, c'est l'heure de la sieste",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic
-                ),
-                textAlign: TextAlign.center,
-              )
-            ),
-            Row(
-              children: [
-                Expanded(child: buttonContainer(text: "Modifier le profil")),
-                buttonContainer(icon: Icons.border_color)
-              ],
-            ),
-            Divider(thickness: 2,),
-            sectionTitleText("A propos de moi"),
-            aboutRow(icon: Icons.house, text: "Hyères les palmiers, France"),
-            aboutRow(icon: Icons.work, text: "Développeur Flutter"),
-            aboutRow(icon: Icons.favorite, text: "En couple avec mon chat"),
-            Divider(thickness: 2,),
-            sectionTitleText("Amis"),
-            allFriends(width / 3.5),
-            Divider(thickness: 2,),
-            sectionTitleText("Mes Posts"),
-            post(time: "5 minutes", image: "images/carnaval.jpg", desc: "Petit tour au Magic World, on s'est bien amusés et en plus il n'y avait pas grand monde. Bref, le kiff"),
-            post(time: "2 jours", image: "images/mountain.jpg", desc: "La montagne ca vous gagne", likes: 38),
-            post(time: "1 semaine", image: "images/work.jpg", desc: "Retour au boulot après plusieurs mois de confinement", likes: 12, comments: 3),
-            post(time: "5 ans", image: "images/playa.jpg", desc: "Le boulot en remote c'est le pied: la preuve ceci sera mon bureau pour les prochaines semaines", likes: 235, comments: 88)
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-  
-  CircleAvatar myProfilePic(double radius) {
-    return CircleAvatar(radius: radius, backgroundImage: AssetImage("images/profile.jpg"));
-  }
-
-  Container buttonContainer({IconData? icon, String? text}) {
-    return Container(
-      margin: EdgeInsets.only(left: 10, right: 10),
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.blue
-      ),
-      child: (icon == null)
-          ? Center(child: Text(text ?? "", style: TextStyle(color: Colors.white)))
-          : Icon(icon, color: Colors.white,),
-      height: 50,
-    );
-  }
-
-  Widget sectionTitleText(String text) {
-    return Padding(
-        padding: EdgeInsets.all(5),
-      child: Text(
-          text,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 18
-        ),
-      ),
-    );
-  }
-
-  Widget aboutRow({required IconData icon, required String text}) {
-    return Row(
-      children: [
-        Icon(icon),
-        Padding(
-            padding: EdgeInsets.all(5),
-          child: Text(text),
-        )
-      ],
-    );
-  }
-
-  Column friendsImage(String name, String imagePath, double width) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.all(5),
-          width: width,
-          height: width,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Colors.grey)],
-            color: Colors.blue
-                
-          ),
-          
-        ),
-        Text(name),
-        Padding(padding: EdgeInsets.only(bottom: 5))
-      ],
-    );
-  }
-  
-  Row allFriends(double width) {
-    Map<String, String> friends = {
-      "José": "images/cat.jpg",
-      "Maggie": "images/sunflower.jpg",
-      "Douggy": "images/duck.jpg"
-    };
-    List<Widget> children = [];
-    friends.forEach((name, imagePath) { 
-      children.add(friendsImage(name, imagePath, width));
-    });
-    return Row(
-      children: children,
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    );
-  }
-
-  Container post({required String time , required String image, required String desc, int likes = 0, int comments = 0}) {
-    return Container(
-      margin: EdgeInsets.only(top: 8, left: 3, right: 3),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Color.fromRGBO(225, 225, 225, 1),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              myProfilePic(20),
-              Padding(padding: EdgeInsets.only(left: 8)),
-              Text("Matthieu Codabee"),
-              Spacer(),
-              timeText(time)
-            ],
-          ),
-          Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 8),
-            child: Image.asset(image, fit: BoxFit.cover,)
-          ),
-          Text(desc,
-            style: TextStyle(
-              color: Colors.blueAccent),
-            textAlign: TextAlign.center,
-
-          ),
-          Divider(),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(Icons.favorite),
-              Text("$likes Likes"),
-              Icon(Icons.message),
-              Text("$comments Commentaires")
-            ],
-          )
-
-        ],
-      ),
-    );
-  }
-  
-  Text timeText(String time) {
-    return Text("Il y a $time", style: TextStyle(color: Colors.blue),);
   }
 }
